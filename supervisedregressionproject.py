@@ -21,7 +21,7 @@ st.title("🍽️ Restaurant Revenue Forecaster")
 # ────────────────────────────────────────────────
 @st.cache_data
 def load_data():
-    df = pd.read_csv("supervisedregressionproject.csv")
+    df = pd.read_csv("restaurant data.csv")
     return df
 
 df = load_data()
@@ -255,4 +255,5 @@ if c5:
     b0 = st.button("Predict")
     if b0:
         ypredic = model.predict(check_scaled)
+
         st.write("Your Restaurants Predicted Revenue is", ypredic)
