@@ -1,6 +1,4 @@
-pandas
-xgboost
-plotly
-scikit-learn
-io
-
+pandas>=2.2.0
+xgboost>=2.0.0
+plotly>=5.0.0
+scikit-learn>=1.5.0
