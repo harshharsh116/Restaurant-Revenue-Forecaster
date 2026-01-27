@@ -21,7 +21,7 @@ st.title("🍽️ Restaurant Revenue Forecaster")
 # ────────────────────────────────────────────────
 @st.cache_data
 def load_data():
-    df = pd.read_csv("restaurant data.csv")
+    df = pd.read_csv("restaurant_data.csv")
     return df
 
 df = load_data()
@@ -257,3 +257,4 @@ if c5:
         ypredic = model.predict(check_scaled)
 
         st.write("Your Restaurants Predicted Revenue is", ypredic)
+
