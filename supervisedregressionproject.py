@@ -11,14 +11,10 @@ import plotly.express as px
 import streamlit as st
 import io
 
-# ────────────────────────────────────────────────
-#                Custom CSS - Modern & Clean Look
-# ────────────────────────────────────────────────
+
 st.markdown("""
     <style>
-    /* ──────────────────────────────────────────────── */
-    /*                Custom CSS - Modern & Clean Look   */
-    /* ──────────────────────────────────────────────── */
+
 
     .stApp {
         background: linear-gradient(135deg, #f5f7fa 0%, #e4e9fd 100%);
@@ -57,10 +53,9 @@ st.markdown("""
     section[data-testid="stSidebar"] p,
     section[data-testid="stSidebar"] div,
     section[data-testid="stSidebar"] span {
-        color: #f0f4f8 !important;          /* Slightly brighter for better readability */
+        color: #f0f4f8 !important;          
     }
 
-    /* Button text in sidebar must be forced visible */
     section[data-testid="stSidebar"] .stButton > button {
         color: white !important;
         background-color: #3498db !important;
@@ -75,7 +70,6 @@ st.markdown("""
         transform: translateY(-2px) !important;
     }
 
-    /* Rest of your styles remain the same */
     .stButton > button {
         background-color: #3498db !important;
         color: white !important;
@@ -125,18 +119,15 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ────────────────────────────────────────────────
-#                   APP TITLE
-# ────────────────────────────────────────────────
+
+
 st.title("🍽️ Restaurant Revenue Forecaster")
 st.markdown(
     "<h4 style='text-align:center; color:#7f8c8d;'>Predict revenue based on location, cuisine, ratings, marketing & more</h4>",
     unsafe_allow_html=True)
 
 
-# ────────────────────────────────────────────────
-#                   DATA LOADING
-# ────────────────────────────────────────────────
+
 @st.cache_data
 def load_data():
     df = pd.read_csv("restaurant_data.csv")
@@ -145,9 +136,6 @@ def load_data():
 
 df = load_data()
 
-# ────────────────────────────────────────────────
-#                   SIDEBAR CONTROLS
-# ────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("<h3 style='color:#ecf0f1; text-align:center;'>Control Panel</h3>", unsafe_allow_html=True)
     st.markdown("---")
@@ -172,16 +160,11 @@ with st.sidebar:
     st.markdown("---")
     b1 = st.button("📊 Show Model Results")
 
-# ────────────────────────────────────────────────
-#                   SHOW RAW DATA
-# ────────────────────────────────────────────────
+
 if c1:
     st.markdown("<h2 style='text-align:center;'>📋 Original Dataset</h2>", unsafe_allow_html=True)
     st.dataframe(df)
 
-# ────────────────────────────────────────────────
-#                   EDA SECTION
-# ────────────────────────────────────────────────
 if c2:
     st.markdown("<h2 style='text-align:center; color:#2c3e50;'>📊 Exploratory Data Analysis</h2>",
                 unsafe_allow_html=True)
@@ -196,7 +179,7 @@ if c2:
         st.markdown("<h3 style='text-align:center;'>Last 5 Rows</h3>", unsafe_allow_html=True)
         st.dataframe(df.tail(5))
 
-    # Info & Describe
+  
     st.markdown("<h3 style='text-align:center;'>Data Information</h3>", unsafe_allow_html=True)
     buffer = io.StringIO()
     df.info(buf=buffer)
@@ -208,7 +191,7 @@ if c2:
     st.markdown("<h3 style='text-align:center;'>Missing Values</h3>", unsafe_allow_html=True)
     st.write(df.isnull().sum())
 
-    # ── All your original plots ── (no change in logic or number)
+  
     plots = [
         ("CapacityWise count of restaurants", px.histogram(df, x="Seating Capacity", nbins=10), "pink"),
         ("LocationWise Count of Restaurants",
@@ -267,9 +250,7 @@ if c2:
 
         st.plotly_chart(fig, use_container_width=True)
 
-# ────────────────────────────────────────────────
-#                   MODEL TRAINING
-# ────────────────────────────────────────────────
+
 df.drop('Name', axis=1, inplace=True)
 
 locationencoder = LabelEncoder()
@@ -324,9 +305,6 @@ elif model_name == 'GridSearch':
     st.markdown(f"<h4>Best CV MSE: {-grid.best_score_:.2f}</h4>", unsafe_allow_html=True)
 
 
-# ────────────────────────────────────────────────
-#                   MODEL RESULTS
-# ────────────────────────────────────────────────
 def result(model):
     ypred = model.predict(xtest)
     mse = mean_squared_error(ytest, ypred)
@@ -342,9 +320,7 @@ if b1:
     with col_r2:
         st.metric("R² Score", f"{r2:.4f}")
 
-# ────────────────────────────────────────────────
-#                   PREDICTION SECTION
-# ────────────────────────────────────────────────
+
 if c5:
     st.markdown("<h2 style='text-align:center; color:#27ae60;'>🍴 Make a Prediction</h2>", unsafe_allow_html=True)
 
@@ -395,4 +371,5 @@ if c5:
                 <div class="prediction-box">
                 Predicted Monthly Revenue: ₹ {ypredic[0]:,.0f}
                 </div>
+
             """, unsafe_allow_html=True)
